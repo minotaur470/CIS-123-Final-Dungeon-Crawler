@@ -5,3 +5,5 @@
 #a rudimentary storyline. 
 
 #import modules
+
+#initialize variables
