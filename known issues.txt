@@ -1,0 +1,1 @@
+If user already exists but new game is selected, file is appended with new values rather than an error message being thrown.

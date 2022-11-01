@@ -15,6 +15,9 @@ os.system('cls') #clear screen
 #initialize variables
 titlescreen_chr = 'x'
 gamestate = 0
+health = 0
+attack = 0
+defense = 0
 
 
 
@@ -39,20 +42,30 @@ while 1==1:
     elif key == 224: 
         key = ord(getch())
         if key == 80: #down
-            gamestate = 1
-            os.system('cls') 
-            title_screen_loadgame(titlescreen_chr)
+            if gamestate == 0:
+                gamestate = 1
+                os.system('cls') 
+                title_screen_loadgame(titlescreen_chr)
+            elif gamestate == 1:
+                gamestate = 0
+                os.system('cls')
+                title_screen_newgame(titlescreen_chr)
         if key == 72: #up
-            gamestate = 0
-            os.system('cls')
-            title_screen_newgame(titlescreen_chr)
+            if gamestate == 1:
+                gamestate = 0
+                os.system('cls')
+                title_screen_newgame(titlescreen_chr)
+            elif gamestate == 0:
+                gamestate = 1
+                os.system('cls') 
+                title_screen_loadgame(titlescreen_chr)
             
 if gamestate == 10: #newgame
     username = input('What is to be the name of our hero?')
-    newuser = character.character(username)
-    print(f'Your name is {newuser.name}? What a heroic name.')
-    current_user = open(f'users\{newuser.name}.txt','a')
-    current_user.write(f'{newuser.name}\n{str(newuser.health)}\n{str(newuser.attack)}\n{str(newuser.defense)}\n')
+    user = character.character(username)
+    print(f'Your name is {user.name}? What a heroic name.')
+    current_user = open(f'users\{user.name}.txt','a')
+    current_user.write(f'{user.name}\n{str(user.health)}\n{str(user.attack)}\n{str(user.defense)}\n')
     current_user.close()
     
 if gamestate == 11: #loadgame
@@ -60,9 +73,18 @@ if gamestate == 11: #loadgame
     try:
         current_user = open(f'users\{username}.txt','r')
         print(f'Your name is {username}? What a heroic name.')
-        newuser = current_user.readline()
+        username, health, attack, defense = character.pull_values(current_user)
+        user = character.character(username,health,attack,defense)
+        current_user.close()
     except:
         print("That user doesn't exist. I'll create a new user with that name.")
-        newuser = character.character(username)
-        current_user = open(f'users\{newuser.name}.txt','w')
+        user = character.character(username)
+        current_user = open(f'users\{user.name}.txt','a')
+        current_user.write(f'{user.name}\n{str(user.health)}\n{str(user.attack)}\n{str(user.defense)}\n')
+        current_user.close()
+        
+gamestate = 20
+
+#start game
+
         

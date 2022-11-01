@@ -12,4 +12,10 @@ class character:
     def def_increase(self,inc=1):
         self.defense += inc
         
-    
+def pull_values(file):
+    name = file.readline()
+    name = name.strip()
+    health = int(file.readline())
+    attack = int(file.readline())
+    defense = int(file.readline())
+    return name, health, attack, defense
